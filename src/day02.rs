@@ -45,12 +45,9 @@ fn solve(mut opcodes: Vec<usize>, noun: usize, verb: usize) -> Result<usize, Str
                 position += 4;
             }
 
-            x if x == END => {
-                break;
-            }
-
-            _ => { return Err(format!("Unknown opcode {} at position {}", opcodes[position], position));
-            }
+            x if x == END => break,
+            
+            _ => return Err(format!("Unknown opcode {} at position {}", opcodes[position], position))
         }
     }
 
