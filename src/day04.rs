@@ -51,9 +51,9 @@ fn has_unique_pairs(x: usize) -> bool {
     let d5 = x % 100_000 / 10_000;
     let d6 = x % 1_000_000 / 100_000;
 
-    return d1 == d2 && d2 != d3 ||
-        d1 != d2 && d2 == d3 && d3 != d4 ||
-        d2 != d3 && d3 == d4 && d4 != d5 ||
-        d3 != d4 && d4 == d5 && d5 != d6 ||
-        d4 != d5 && d5 == d6
+    return d1 == d2 && d2 != d3
+        || d1 != d2 && d2 == d3 && d3 != d4
+        || d2 != d3 && d3 == d4 && d4 != d5
+        || d3 != d4 && d4 == d5 && d5 != d6
+        || d4 != d5 && d5 == d6;
 }
