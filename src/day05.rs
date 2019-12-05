@@ -8,21 +8,20 @@ static END: i64 = 99;
 
 static INPUT_VALUE: i64 = 1;
 
-pub fn part_1(input: &str) -> Result<i64, String> {
+pub fn part_1(input: &str) {
     let opcodes: Vec<i64> = input.split(",").map(|s| s.parse().unwrap()).collect();
-    return solve(opcodes, INPUT_VALUE);
+    solve(opcodes, INPUT_VALUE);
 }
 
-fn solve(mut opcodes: Vec<i64>, input: i64) -> Result<i64, String> {
+fn solve(mut opcodes: Vec<i64>, input: i64) {
     let mut position = 0;
     let opcode_len = opcodes.len();
 
     while position < opcode_len {
         match opcodes[position] {
-            x if x % 10 == ADD || x % 10 == MUL => {
-                let first_param_immediate_mode = x > 100 && x / 100 % 10 > 0;
-                let second_param_immediate_mode = x > 1000 && x / 1000 % 10 > 0;
-
+            op if op % 10 == ADD || op % 10 == MUL => {
+                let first_param_immediate_mode  = op > 100  && op / 100  % 10 > 0;
+                let second_param_immediate_mode = op > 1000 && op / 1000 % 10 > 0;
                 let x = { 
                     if first_param_immediate_mode { 
                         println!("First param at position {} with immediate mode with value [{}]", position + 1, opcodes[position + 1]);
@@ -43,9 +42,11 @@ fn solve(mut opcodes: Vec<i64>, input: i64) -> Result<i64, String> {
                     }
                 };
 
-                let res = if x % 10 == ADD {
+                let res = if op % 10 == ADD {
+                    println!("adding");
                     x + y
                 } else {
+                    println!("muliplying");
                     x * y
                 };
 
@@ -55,27 +56,35 @@ fn solve(mut opcodes: Vec<i64>, input: i64) -> Result<i64, String> {
                 position += 4;
             }
 
-            x if x == IN => {
+            op if op == IN => {
                 let location = usize::try_from(opcodes[position + 1]).unwrap();
                 opcodes[location] = input;
                 position += 2;
             }
 
-            x if x == OUT => {
-                let location = usize::try_from(opcodes[position + 1]).unwrap();
-                println!("OUTPUT!: {}", opcodes[location]);
+            op if op % 10 == OUT => {
+                let first_param_immediate_mode = op > 100 && op / 100 % 10 > 0;                
+                let output = { 
+                    if first_param_immediate_mode { 
+                        opcodes[position + 1]
+                    } else {
+                        opcodes[usize::try_from(opcodes[position + 1]).unwrap()]
+                    }
+                };                
+                println!("OUTPUT!: {}", output);
                 position += 2;
             }
 
-            x if x == END => break,
+            op if op == END => break,
             
             _ => {
                 opcodes.iter().for_each(|o| print!("{},", o));
-                return Err(format!("Unknown opcode {} at position {}.", opcodes[position], position))
+                println!("Unknown opcode {} at position {}.", opcodes[position], position);
+                break;
             }
 
         }
-    }
 
-    return Ok(opcodes[0]);
+    }
+    
 }

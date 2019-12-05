@@ -27,8 +27,8 @@ fn main() {
     let answer_4b = day04::part_2();
     println!("Day 4 - Part 2 {:?}", answer_4b);
 
-    let answer_5a = day05::part_1(DAY05_INPUT);
-    println!("Day 5 - Part 1 {:?}", answer_5a);
+    day05::part_1(DAY05_INPUT);
+    // println!("Day 5 - Part 1 {:?}", answer_5a);
     // let answer_5b = day05::part_2(DAY02_INPUT);
     // println!("Day 5 - Part 2 {:?}", answer_5b);
 }
